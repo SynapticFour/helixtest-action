@@ -1,0 +1,96 @@
+# SPDX-License-Identifier: Apache-2.0
+name: HelixTest
+description: Run the HelixTest GA4GH conformance CLI against a running target.
+author: Synaptic Four
+branding:
+  icon: check-circle
+  color: blue
+
+inputs:
+  version:
+    description: HelixTest GitHub Release tag (binary pin).
+    required: false
+    default: "v0.1.1"
+  mode:
+    description: "helixtest --mode (ferrum or ferrum+infra). Does not start servers."
+    required: false
+    default: "ferrum"
+  profile:
+    description: "Optional --profile (e.g. ferrum-infra-pilot). Empty = CLI default."
+    required: false
+    default: ""
+  only:
+    description: "Optional --only surface (e.g. beacon). Empty = --all."
+    required: false
+    default: ""
+  fail-level:
+    description: "--fail-level (exit non-zero at this HelixTest level)."
+    required: false
+    default: "2"
+  extra-args:
+    description: Extra arguments appended to helixtest (shell-split, no secrets).
+    required: false
+    default: ""
+  run:
+    description: "Set to false to only install the binary (this repo's CI)."
+    required: false
+    default: "true"
+  github-token:
+    description: Token for downloading the public HelixTest release (optional).
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install HelixTest binary
+      shell: bash
+      env:
+        HELIXTEST_VERSION: ${{ inputs.version }}
+        GH_TOKEN: ${{ inputs.github-token }}
+      run: |
+        set -euo pipefail
+        case "$(uname -s)-$(uname -m)" in
+          Linux-x86_64) ASSET="helixtest-x86_64-unknown-linux-gnu" ;;
+          Linux-aarch64|Linux-arm64) ASSET="helixtest-aarch64-unknown-linux-gnu" ;;
+          Darwin-arm64) ASSET="helixtest-aarch64-apple-darwin" ;;
+          *)
+            echo "No HelixTest ${HELIXTEST_VERSION} binary for $(uname -s) $(uname -m)." >&2
+            echo "Published assets: linux-gnu x86_64/aarch64, darwin aarch64." >&2
+            exit 1
+            ;;
+        esac
+        BASE="https://github.com/SynapticFour/HelixTest/releases/download/${HELIXTEST_VERSION}"
+        curl -fsSL -o "${RUNNER_TEMP}/${ASSET}" "${BASE}/${ASSET}"
+        curl -fsSL -o "${RUNNER_TEMP}/${ASSET}.sha256" "${BASE}/${ASSET}.sha256"
+        (cd "${RUNNER_TEMP}" && shasum -a 256 -c "${ASSET}.sha256")
+        chmod +x "${RUNNER_TEMP}/${ASSET}"
+        ln -sf "${RUNNER_TEMP}/${ASSET}" "${RUNNER_TEMP}/helixtest"
+        echo "${RUNNER_TEMP}" >> "${GITHUB_PATH}"
+        "${RUNNER_TEMP}/helixtest" --help >/dev/null
+
+    - name: Run HelixTest
+      if: ${{ inputs.run != 'false' }}
+      shell: bash
+      env:
+        HELIXTEST_MODE: ${{ inputs.mode }}
+        HELIXTEST_PROFILE: ${{ inputs.profile }}
+        HELIXTEST_ONLY: ${{ inputs.only }}
+        HELIXTEST_FAIL_LEVEL: ${{ inputs.fail-level }}
+        HELIXTEST_EXTRA: ${{ inputs.extra-args }}
+      run: |
+        set -euo pipefail
+        cmd=(helixtest --mode "${HELIXTEST_MODE}" --report json --fail-level "${HELIXTEST_FAIL_LEVEL}")
+        if [ -n "${HELIXTEST_ONLY}" ]; then
+          cmd+=(--only "${HELIXTEST_ONLY}")
+        else
+          cmd+=(--all)
+        fi
+        if [ -n "${HELIXTEST_PROFILE}" ]; then
+          cmd+=(--profile "${HELIXTEST_PROFILE}")
+        fi
+        # shellcheck disable=SC2206
+        extra=( ${HELIXTEST_EXTRA} )
+        cmd+=("${extra[@]}")
+        echo "Running: ${cmd[*]}"
+        "${cmd[@]}"

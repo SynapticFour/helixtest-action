@@ -1,0 +1,22 @@
+# Prove the action can fetch the pinned HelixTest binary.
+# Does not start Ferrum. Not GA4GH certification.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  download-binary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Action metadata exists
+        run: test -f action.yml && test -f README.md && test -f LICENSE
+      - uses: ./
+        with:
+          version: v0.1.1
+          run: "false"
