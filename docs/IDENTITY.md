@@ -1,6 +1,6 @@
 # Who helixtest-action is for
 
-A **thin GitHub Action** so a third-party CI job can run the same HelixTest **v0.1.1** binary Synaptic Four publishes. Apache-2.0. Not sold.
+A **thin GitHub Action** so a third-party CI job can run the same HelixTest **v0.1.2** binary Synaptic Four publishes. Apache-2.0. Not sold.
 
 **Not for:** deploying Ferrum, issuing Passports, proving a stack you did not start in the same job.
 

@@ -10,7 +10,7 @@ inputs:
   version:
     description: HelixTest GitHub Release tag (binary pin).
     required: false
-    default: "v0.1.1"
+    default: "v0.1.2"
   mode:
     description: "helixtest --mode (ferrum or ferrum+infra). Does not start servers."
     required: false

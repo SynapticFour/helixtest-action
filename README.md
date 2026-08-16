@@ -1,6 +1,6 @@
 # helixtest-action
 
-GitHub Action wrapper around the **HelixTest** CLI (`v0.1.1` release binaries). Apache-2.0. **Not a product SKU.** Same ambassador as [HelixTest](https://github.com/SynapticFour/HelixTest).
+GitHub Action wrapper around the **HelixTest** CLI (`v0.1.2` release binaries). Apache-2.0. **Not a product SKU.** Same ambassador as [HelixTest](https://github.com/SynapticFour/HelixTest).
 
 The action **does not start Ferrum, ga4gh-infra, or BRA.** Point it at a stack you already brought up in the job (or a public URL). Results are **not** official GA4GH certification.
 
@@ -8,7 +8,7 @@ The action **does not start Ferrum, ga4gh-infra, or BRA.** Point it at a stack y
 
 | What | Value |
 |------|--------|
-| HelixTest binaries | GitHub Release **v0.1.1** (`helixtest-*` + `.sha256`) |
+| HelixTest binaries | GitHub Release **v0.1.2** (`helixtest-*` + `.sha256`) |
 | Schema source of truth | Published GA4GH OpenAPI (vendored in HelixTest). Ferrum [utoipa dump](https://github.com/SynapticFour/Ferrum/blob/main/docs/openapi/ferrum.openapi.json) is an implementation map only. |
 | Default `--mode` | `ferrum` |
 
@@ -27,7 +27,7 @@ Until this repo has its own tag, pin the action at a commit SHA on `main`.
 ```yaml
 - uses: SynapticFour/helixtest-action@main   # pin a SHA in production
   with:
-    version: v0.1.1
+    version: v0.1.2
     mode: ferrum
     only: beacon          # empty = --all
     fail-level: "2"
@@ -43,7 +43,7 @@ Until this repo has its own tag, pin the action at a commit SHA on `main`.
 ```yaml
 - uses: SynapticFour/helixtest-action@main
   with:
-    version: v0.1.1
+    version: v0.1.2
     mode: ferrum+infra
     profile: ferrum-infra-pilot
   env:
