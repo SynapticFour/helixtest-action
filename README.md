@@ -20,7 +20,7 @@ Until this repo has its own tag, pin the action at a commit SHA on `main`.
 |------|----------------|----------------|
 | `ferrum` | HelixTest against a running Ferrum (or compatible) HTTP surface | Not auth-on unless your stack is. Not certification. |
 | `ferrum+infra` | Same plus ga4gh-infra (broker/registry/Passport-on-DRS). Stack must already be up. | Not this Action starting compose. Hosted Synaptic Four proof is Ferrum workflow `helixtest-ferrum-infra.yml`. |
-| GHCR **auth-on** | HS256 JWT on published `ferrum:v0.3.1-edge` | **Not this Action.** That job lives in HelixTest (`live-ferrum-ghcr-auth.yml`). Demo Live GHCR stays auth-off. |
+| GHCR **auth-on** | HS256 JWT on published `ferrum:edge` | **Not this Action.** That job lives in HelixTest (`live-ferrum-ghcr-auth.yml`). Demo Live GHCR stays auth-off. Tag `v0.3.1-edge` is not the default. |
 
 ## Usage
 
