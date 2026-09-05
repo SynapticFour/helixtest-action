@@ -1,6 +1,6 @@
 # helixtest-action
 
-GitHub Action wrapper around the **HelixTest** CLI (`v0.1.2` release binaries). Apache-2.0. **Not a product SKU.** Same ambassador as [HelixTest](https://github.com/SynapticFour/HelixTest).
+GitHub Action wrapper around the **HelixTest** CLI (`v0.1.3` release binaries). Apache-2.0. **Not a product SKU.** Same ambassador as [HelixTest](https://github.com/SynapticFour/HelixTest).
 
 The action **does not start Ferrum, ga4gh-infra, or BRA.** Point it at a stack you already brought up in the job (or a public URL). Results are **not** official GA4GH certification.
 
@@ -8,11 +8,12 @@ The action **does not start Ferrum, ga4gh-infra, or BRA.** Point it at a stack y
 
 | What | Value |
 |------|--------|
-| HelixTest binaries | GitHub Release **v0.1.2** (`helixtest-*` + `.sha256`) |
+| This Action | commit `1b1717e272c88ddf565a53dce74f60ec35f27356` (default binary pin **v0.1.3**) |
+| HelixTest binaries | GitHub Release **v0.1.3** (`helixtest-*` + `.sha256`) |
 | Schema source of truth | Published GA4GH OpenAPI (vendored in HelixTest). Ferrum [utoipa dump](https://github.com/SynapticFour/Ferrum/blob/main/docs/openapi/ferrum.openapi.json) is an implementation map only. |
 | Default `--mode` | `ferrum` |
 
-Until this repo has its own tag, pin the action at a commit SHA on `main`.
+Pin the Action at that commit SHA. Do not use `@main` as the primary example — `main` moves.
 
 ## Modes (what a buyer can claim)
 
@@ -25,9 +26,9 @@ Until this repo has its own tag, pin the action at a commit SHA on `main`.
 ## Usage
 
 ```yaml
-- uses: SynapticFour/helixtest-action@main   # pin a SHA in production
+- uses: SynapticFour/helixtest-action@1b1717e272c88ddf565a53dce74f60ec35f27356
   with:
-    version: v0.1.2
+    version: v0.1.3
     mode: ferrum
     only: beacon          # empty = --all
     fail-level: "2"
@@ -41,9 +42,9 @@ Until this repo has its own tag, pin the action at a commit SHA on `main`.
 `ferrum+infra` example (after you started Ferrum `make up-pilot-local` or equivalent):
 
 ```yaml
-- uses: SynapticFour/helixtest-action@main
+- uses: SynapticFour/helixtest-action@1b1717e272c88ddf565a53dce74f60ec35f27356
   with:
-    version: v0.1.2
+    version: v0.1.3
     mode: ferrum+infra
     profile: ferrum-infra-pilot
   env:
