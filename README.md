@@ -1,6 +1,6 @@
 # helixtest-action
 
-Freeze status (2026-09): [STATUS.md](STATUS.md).
+Status: [STATUS.md](STATUS.md).
 
 
 GitHub Action wrapper around the **HelixTest** CLI (`v0.1.3` release binaries). Apache-2.0. **Not a product SKU.** Same ambassador as [HelixTest](https://github.com/SynapticFour/HelixTest).
