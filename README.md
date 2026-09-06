@@ -1,8 +1,5 @@
 # helixtest-action
 
-Status: [STATUS.md](STATUS.md).
-
-
 GitHub Action wrapper around the **HelixTest** CLI (`v0.1.3` release binaries). Apache-2.0. **Not a product SKU.** Same ambassador as [HelixTest](https://github.com/SynapticFour/HelixTest).
 
 The action **does not start Ferrum, ga4gh-infra, or BRA.** Point it at a stack you already brought up in the job (or a public URL). Results are **not** official GA4GH certification.
